@@ -28,10 +28,10 @@ class RattingMonitorController extends Controller
         $user_table = (new User())->getTable();
         $character_table = (new UniverseName())->getTable();
 
-        $ratting_entries = CorporationWalletJournal::select(
+         $query1 = CorporationWalletJournal::select(
             DB::raw("ROUND(SUM(tax/tax_rate)) as tax"),
-            DB::raw("IF ($character_table.name IS NOT NULL,$character_table.name,'Unknown Character') as name"),
-            DB::raw("IF ($user_table.main_character_id IS NOT NULL,$user_table.main_character_id,second_party_id) as character_id")
+            DB::raw("$character_table.name as name"),
+            DB::raw("$user_table.main_character_id as character_id")
         )
             ->where("ref_type","bounty_prizes")
             ->where("context_id",$system)
@@ -41,9 +41,35 @@ class RattingMonitorController extends Controller
             ->leftJoin($refresh_token_table,"second_party_id","$refresh_token_table.character_id")
             ->leftJoin($user_table,"$refresh_token_table.user_id","=","$user_table.id")
             ->leftJoin($character_table,"$user_table.main_character_id","=","$character_table.entity_id")
-            ->groupBy("$character_table.name","second_party_id","$user_table.main_character_id")
-            ->orderBy("tax","DESC")
-            ->limit(100)->get();
+            ->groupBy("$character_table.name","$user_table.main_character_id")
+
+            ->where("$character_table.name", "!=", "NULL")
+
+            ->orderBy("tax","DESC");
+
+         $ratting_entries = CorporationWalletJournal::select(
+             DB::raw("ROUND(SUM(tax/tax_rate)) as tax"),
+             DB::raw("IF ($character_table.name IS NOT NULL,$character_table.name,'Unknown Character') as name"),
+             DB::raw("second_party_id as character_id"),
+         )
+             ->where("ref_type","bounty_prizes")
+             ->where("context_id",$system)
+             ->where("context_id_type","system_id")
+             ->whereDate("date" , ">=", Carbon::now()->subDays($days))
+             ->join($corporation_info_table,"tax_receiver_id","=","$corporation_info_table.corporation_id")
+
+             ->leftJoin($refresh_token_table,"second_party_id","$refresh_token_table.character_id")
+             ->leftJoin($user_table,"$refresh_token_table.user_id","=","$user_table.id")
+
+             ->leftJoin($character_table,"second_party_id","=","$character_table.entity_id")
+             ->groupBy("$character_table.name","second_party_id")
+
+             ->where("$refresh_token_table.user_id", "=", null)
+
+             ->union($query1)
+
+             ->orderBy("tax","DESC")->get();
+
 
         //dd(json_encode($ratting_entries, JSON_PRETTY_PRINT));
 
