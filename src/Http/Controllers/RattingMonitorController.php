@@ -97,7 +97,8 @@ class RattingMonitorController extends Controller
             ->leftJoin($character_table,"second_party_id","=","$character_table.entity_id")
             ->groupBy("$character_table.name","second_party_id")
             ->orderBy("tax","DESC")
-            ->limit(100)->get();
+
+            ->get();
 
         //dd(json_encode($ratting_entries, JSON_PRETTY_PRINT));
 

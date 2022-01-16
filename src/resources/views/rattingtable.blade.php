@@ -8,7 +8,7 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Ratting Monitor</h5>
-            <p class="card-text">
+            <div class="card-text">
                 <form action="" method="GET">
                     <div class="form-group">
                         <label for="location">System</label>
@@ -64,7 +64,11 @@
                         @endforeach
                     </tbody>
                 </table>
+
+            <p>
+                Total ratted: {{ number($ratting_entries->pluck("tax")->sum()) }} ISK
             </p>
+            </div>
         </div>
     </div>
 @stop
