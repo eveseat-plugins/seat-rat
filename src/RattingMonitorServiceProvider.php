@@ -17,9 +17,9 @@ class RattingMonitorServiceProvider extends AbstractSeatPlugin
         $this->loadViewsFrom(__DIR__ . '/resources/views/', 'rattingmonitor');
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
 
-//        $this->publishes([
-//            __DIR__ . '/resources/js' => public_path('rat/js')
-//        ]);
+        $this->publishes([
+            __DIR__ . '/resources/js' => public_path('rattingmonitor/js')
+        ]);
     }
 
     public function register(){

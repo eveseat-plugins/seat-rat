@@ -17,6 +17,12 @@ return [
                 'icon'  => 'fas fa-users',
                 'route' => 'rattingmonitor.user',
                 'permission' => 'rattingmonitor.cat',
+            ],
+            [
+                'name'  => 'About',
+                'icon'  => 'fas fa-info',
+                'route' => 'rattingmonitor.about',
+                'permission' => 'rattingmonitor.cat',
             ]
         ]
     ]
