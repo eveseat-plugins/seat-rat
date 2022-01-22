@@ -2,6 +2,7 @@
 
 namespace RecursiveTree\Seat\RattingMonitor\Http\Controllers;
 
+use RecursiveTree\Seat\RattingMonitor\Models\FavoriteSystem;
 use Seat\Web\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +19,24 @@ use Seat\Eveapi\Models\Universe\UniverseName;
 
 class RattingMonitorController extends Controller
 {
+    private function process_favorites(Request $request){
+        if($request->add_favorite){
+            if(SolarSystem::find($request->add_favorite) == null) return;
+            if(FavoriteSystem::where("system_id",$request->add_favorite)->exists()) return;
+
+            $favorite = new FavoriteSystem();
+            $favorite->system_id =$request->add_favorite;
+            $favorite->save();
+        }
+
+        if($request->remove_favorite){
+            FavoriteSystem::where("system_id",$request->remove_favorite)->delete();
+        }
+    }
+
     public function user(Request $request){
+        $this->process_favorites($request);
+
         $days = $request->days ?: 30;
         $system = $request->system ?: 30000142; //Jita
         $system_name = $request->system_text ?: "Jita";
@@ -73,10 +91,14 @@ class RattingMonitorController extends Controller
 
         //dd(json_encode($ratting_entries, JSON_PRETTY_PRINT));
 
-        return view("rattingmonitor::rattingtable", compact("days","system","system_name", "ratting_entries"));
+        $favorites = FavoriteSystem::all();
+
+        return view("rattingmonitor::rattingtable", compact("days","system","system_name", "ratting_entries","favorites"));
     }
 
     public function character(Request $request){
+        $this->process_favorites($request);
+
         $days = $request->days ?: 30;
         $system = $request->system ?: 30000142; //Jita
         $system_name = $request->system_text ?: "Jita";
@@ -102,7 +124,9 @@ class RattingMonitorController extends Controller
 
         //dd(json_encode($ratting_entries, JSON_PRETTY_PRINT));
 
-        return view("rattingmonitor::rattingtable", compact("days","system","system_name", "ratting_entries"));
+        $favorites = FavoriteSystem::all();
+
+        return view("rattingmonitor::rattingtable", compact("days","system","system_name", "ratting_entries","favorites"));
     }
 
     public function systems(Request $request){
