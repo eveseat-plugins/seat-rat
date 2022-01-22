@@ -45,7 +45,7 @@
                         @if($ratting_entries->isEmpty())
                             <tr>
                                 <td colspan="2" class="text-center">
-                                    It seems like nobody ratted in {{ $system_name }} in the last {{ $days }}
+                                    It seems like nobody ratted in {{ $system_name }} in the last {{ $days }} days
                                 </td>
                             </tr>
                         @endif
