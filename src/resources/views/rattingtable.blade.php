@@ -68,36 +68,39 @@
     <div class="card">
         <div class="card-body">
             <h2>{{ $system_name }}</h2>
-            <table class="table table-striped table-hover">
-                <thead>
-                <tr>
-                    <th>Character</th>
-                    <th>Ratted Money</th>
-                </tr>
-                </thead>
-                <tbody>
-                @if($ratting_entries->isEmpty())
-                    <tr>
-                        <td colspan="2" class="text-center">
-                            It seems like nobody ratted in {{ $system_name }} in the last {{ $days }} days
-                        </td>
-                    </tr>
-                @endif
-                @foreach($ratting_entries as $entry)
-                    <tr>
-                        <td>
-                            <a href="{{ route('character.view.default', ['character' => $entry->character_id]) }}">
-                                {!! img('characters', 'portrait', $entry->character_id, 32, ['class' => 'img-circle eve-icon'], false) !!}
-                                {{ $entry->name }}
-                            </a>
-                        </td>
-                        <td>
-                            {{ number($entry->tax) }} ISK
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+
+            {!! $dataTable->table() !!}
+
+{{--            <table class="table table-striped table-hover">--}}
+{{--                <thead>--}}
+{{--                <tr>--}}
+{{--                    <th>Character</th>--}}
+{{--                    <th>Ratted Money</th>--}}
+{{--                </tr>--}}
+{{--                </thead>--}}
+{{--                <tbody>--}}
+{{--                @if($ratting_entries->isEmpty())--}}
+{{--                    <tr>--}}
+{{--                        <td colspan="2" class="text-center">--}}
+{{--                            It seems like nobody ratted in {{ $system_name }} in the last {{ $days }} days--}}
+{{--                        </td>--}}
+{{--                    </tr>--}}
+{{--                @endif--}}
+{{--                @foreach($ratting_entries as $entry)--}}
+{{--                    <tr>--}}
+{{--                        <td>--}}
+{{--                            <a href="{{ route('character.view.default', ['character' => $entry->character_id]) }}">--}}
+{{--                                {!! img('characters', 'portrait', $entry->character_id, 32, ['class' => 'img-circle eve-icon'], false) !!}--}}
+{{--                                {{ $entry->name }}--}}
+{{--                            </a>--}}
+{{--                        </td>--}}
+{{--                        <td>--}}
+{{--                            {{ number($entry->tax) }} ISK--}}
+{{--                        </td>--}}
+{{--                    </tr>--}}
+{{--                @endforeach--}}
+{{--                </tbody>--}}
+{{--            </table>--}}
 
             <p>
                 Total ratted: {{ number($ratting_entries->pluck("tax")->sum()) }} ISK
@@ -107,6 +110,9 @@
 @stop
 
 @push('javascript')
+    <script src="{{ asset('web/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('web/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
     <script src="{{ asset("rattingmonitor/js/bootstrap-autocomplete.js") }}"></script>
 
     <script>
@@ -122,4 +128,6 @@
             text: "{{ $system_name }}"
         });
     </script>
+
+    {{$dataTable->scripts()}}
 @endpush

@@ -6,25 +6,13 @@ Route::group([
     'prefix' => 'ratting',
 ], function () {
 
-    Route::get('/character', [
+    Route::match(['GET', 'POST'], '/character', [
         'as'   => 'rattingmonitor.character',
         'uses' => 'RattingMonitorController@character',
         'middleware' => 'can:rattingmonitor.cat'
     ]);
 
-    Route::post('/character', [
-        'as'   => 'rattingmonitor.character',
-        'uses' => 'RattingMonitorController@character',
-        'middleware' => 'can:rattingmonitor.cat'
-    ]);
-
-    Route::get('/user', [
-        'as'   => 'rattingmonitor.user',
-        'uses' => 'RattingMonitorController@user',
-        'middleware' => 'can:rattingmonitor.cat'
-    ]);
-
-    Route::post('/user', [
+    Route::match(['GET', 'POST'],'/user', [
         'as'   => 'rattingmonitor.user',
         'uses' => 'RattingMonitorController@user',
         'middleware' => 'can:rattingmonitor.cat'
