@@ -27,7 +27,7 @@ abstract class RattingDataTable extends DataTable
         return $this->builder()
             ->postAjax()
             ->parameters([
-                'dom'          => '<"row"<"col-sm-12 col-md-4"l><"col-sm-12 col-md-4 text-center"B><"col-sm-12 col-md-4"f>><"row"<"col-sm-12"tr>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+                'dom'          => '<"row"<"col-sm-12 col-md-4"l><"col-sm-12 col-md-4 text-center"B>><"row"<"col-sm-12"tr>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
                 'buttons' => ['postCsv', 'postExcel'],
                 'drawCallback' => "function(d) { d.system = $system; d.days = $days; }",
             ])
