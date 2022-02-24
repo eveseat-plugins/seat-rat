@@ -2,7 +2,6 @@
 
 namespace RecursiveTree\Seat\RattingMonitor\Http\Datatables;
 
-use Seat\Eveapi\Models\Wallet\CorporationWalletJournal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 

@@ -10,13 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Seat\Eveapi\Models\Sde\SolarSystem;
-use Seat\Eveapi\Models\Wallet\CorporationWalletJournal;
-use Seat\Eveapi\Models\Corporation\CorporationInfo;
-use Seat\Eveapi\Models\RefreshToken;
 use Carbon\Carbon;
-use Seat\Web\Models\User;
-use Seat\Eveapi\Models\Character\CharacterInfo;
-use Seat\Eveapi\Models\Universe\UniverseName;
 
 
 class RattingMonitorController extends Controller
