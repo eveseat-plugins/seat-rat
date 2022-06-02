@@ -34,7 +34,7 @@ class RattingMonitorServiceProvider extends AbstractSeatPlugin
 
     public function getPackageRepositoryUrl(): string
     {
-        return 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+        return 'https://github.com/recursivetree/seat-rat';
     }
 
     public function getPackagistPackageName(): string
