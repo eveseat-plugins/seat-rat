@@ -5,6 +5,8 @@
 
 
 @section('full')
+    @include("treelib::giveaway")
+
     <div class="card">
         <div class="card-body">
             <h2>Ratting Monitor</h2>
