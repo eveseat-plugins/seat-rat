@@ -15,24 +15,37 @@ use Carbon\Carbon;
 
 class RattingMonitorController extends Controller
 {
-    private function process_favorites(Request $request){
-        if($request->add_favorite){
-            if(SolarSystem::find($request->add_favorite) == null) return;
-            if(FavoriteSystem::where("system_id",$request->add_favorite)->exists()) return;
+    public function addFavoriteSystem(Request $request){
+        $request->validate([
+            "add_favorite"=>"nullable|integer",
+            "remove_favorite"=>"nullable|integer"
+        ]);
+
+        if($request->add_favorite !== null){
+            if(SolarSystem::find($request->add_favorite) == null) {
+                return redirect()->back()->with(["error"=>"Couldn't find system"]);
+            }
+            if(FavoriteSystem::where("system_id",$request->add_favorite)->exists()) {
+                return redirect()->back()->with(["success"=>"System is already in favorites!"]);
+            }
 
             $favorite = new FavoriteSystem();
             $favorite->system_id =$request->add_favorite;
             $favorite->save();
+
+            return redirect()->back()->with(["success"=>"Successfully added system to favorites"]);
         }
 
         if($request->remove_favorite){
             FavoriteSystem::where("system_id",$request->remove_favorite)->delete();
+
+            return redirect()->back()->with(["success"=>"Successfully removed system from favorites"]);
         }
+
+        return redirect()->back();
     }
 
     public function user(Request $request, UserRattingDataTable $dataTable){
-        $this->process_favorites($request);
-
         $days = intval($request->days) ?: 30;
         $system = intval($request->system) ?: 30000142; //Jita
         $system_name = $request->system_text ?: "Jita";
@@ -46,8 +59,6 @@ class RattingMonitorController extends Controller
 
     public function character(Request $request, CharacterRattingDataTable $dataTable)
     {
-        $this->process_favorites($request);
-
         $days = intval($request->days) ?: 30;
         $system = intval($request->system) ?: 30000142; //Jita
         $system_name = $request->system_text ?: "Jita";

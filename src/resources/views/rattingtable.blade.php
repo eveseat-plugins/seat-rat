@@ -41,13 +41,13 @@
             <div class="d-flex flex-row justify-content-between">
                 <h2>Favorites</h2>
                 @if($favorites->where("system_id",$system)->isEmpty())
-                    <form method="POST" class="float-left">
+                    <form method="POST" class="float-left" action="{{ route("rattingmonitor.favorites") }}">
                         @csrf
                         <button class="btn btn-primary">Add {{ $system_name }}</button>
                         <input type="hidden" name="add_favorite" value="{{ $system }}">
                     </form>
                 @else
-                    <form method="POST" class="float-left">
+                    <form method="POST" class="float-left" action="{{ route("rattingmonitor.favorites") }}">
                         @csrf
                         <button class="btn btn-danger">Remove {{ $system_name }}</button>
                         <input type="hidden" name="remove_favorite" value="{{ $system }}">
