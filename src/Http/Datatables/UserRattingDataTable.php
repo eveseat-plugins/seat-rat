@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class UserRattingDataTable extends RattingDataTable
 {
-    public function query($system,$days)
+    public function query($system,$start, $end)
     {
         $notLinkedCharacters = DB::table("corporation_wallet_journals")
             ->selectRaw(DB::raw("ROUND(SUM(tax/tax_rate)) as ratted_money"))
@@ -16,7 +16,8 @@ class UserRattingDataTable extends RattingDataTable
             ->where("ref_type","bounty_prizes")
             ->where("context_id",$system)
             ->where("context_id_type","system_id")
-            ->whereDate("date" , ">=", carbon()->subDays($days))
+            ->whereDate("date" , ">=", $start)
+            ->whereDate("date" , "<=", $end)
             ->join("corporation_infos","tax_receiver_id","=","corporation_infos.corporation_id")
 
             ->leftJoin("refresh_tokens","second_party_id","refresh_tokens.character_id")
@@ -34,7 +35,8 @@ class UserRattingDataTable extends RattingDataTable
             ->where("ref_type","bounty_prizes")
             ->where("context_id",$system)
             ->where("context_id_type","system_id")
-            ->whereDate("date" , ">=", carbon()->subDays($days))
+            ->whereDate("date" , ">=", $start)
+            ->whereDate("date" , "<=", $end)
             ->join("corporation_infos","tax_receiver_id","=","corporation_infos.corporation_id")
             ->leftJoin("refresh_tokens","second_party_id","refresh_tokens.character_id")
             ->leftJoin("users","refresh_tokens.user_id","=","users.id")

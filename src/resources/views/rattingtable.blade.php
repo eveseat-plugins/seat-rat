@@ -25,9 +25,23 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="days">Days</label>
-                    <input class="form-control" type="number" name="days" id="days" min="1" value="{{ $days }}">
-                    <small class="form-text text-muted">How many days back should calculations be made?</small>
+                    <label>Time</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="timeType" id="timeDays" value="days" @checked($timeType==="days")>
+                        <label class="form-check-label" for="timeDays">
+                            Last n days
+                        </label>
+                        <input class="form-control" type="number" name="days" id="days" min="1" value="{{ $days }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="timeType" id="timeMonth" value="month" @checked($timeType==="month")>
+                        <label class="form-check-label" for="timeMonth">
+                            Select a month
+                        </label>
+                        <input type="month" class="form-control" name="month" value="{{ $month }}">
+                    </div>
                 </div>
 
                 <div class="form-group">

@@ -46,28 +46,33 @@ class RattingMonitorController extends Controller
     }
 
     public function user(Request $request, UserRattingDataTable $dataTable){
+
+        $timeType = $request->timeType ?: "days";
         $days = intval($request->days) ?: 30;
         $system = intval($request->system) ?: 30000142; //Jita
         $system_name = $request->system_text ?: "Jita";
+        $month = $request->month;
 
         $favorites = FavoriteSystem::all();
         $ratting_entries = collect();
 
         return $dataTable
-            ->render("rattingmonitor::rattingtable", compact("days", "system", "system_name", "ratting_entries", "favorites"));
+            ->render("rattingmonitor::rattingtable", compact("days", "system", "system_name", "ratting_entries", "favorites", "timeType", "month"));
     }
 
     public function character(Request $request, CharacterRattingDataTable $dataTable)
     {
+        $timeType = $request->timeType ?: "days";
         $days = intval($request->days) ?: 30;
         $system = intval($request->system) ?: 30000142; //Jita
         $system_name = $request->system_text ?: "Jita";
+        $month = $request->month;
 
         $favorites = FavoriteSystem::all();
         $ratting_entries = collect();
 
         return $dataTable
-            ->render("rattingmonitor::rattingtable", compact("days", "system", "system_name", "ratting_entries", "favorites"));
+            ->render("rattingmonitor::rattingtable", compact("days", "system", "system_name", "ratting_entries", "favorites", "timeType", "month"));
     }
 
     public function systems(Request $request){

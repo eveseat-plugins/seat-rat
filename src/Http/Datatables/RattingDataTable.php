@@ -9,7 +9,7 @@ abstract class RattingDataTable extends DataTable
 {
     protected $exportClass = RattingDataExport::class;
 
-    abstract public function query($system,$days);
+    abstract public function query($system,$start,$end);
 
     public function getColumns()
     {
@@ -37,11 +37,17 @@ abstract class RattingDataTable extends DataTable
 
     public function ajax()
     {
-        $days = intval(request()->query("days")) ?: 30;
+        if(request()->query("timeType")=="days"){
+            $start = now()->subDays(intval(request()->query("days")) ?: 30);
+            $end = now();
+        } else {
+            $start = carbon(request()->query("month"))->startOfMonth();
+            $end = carbon(request()->query("month"))->endOfMonth();
+        }
         $system = intval(request()->query("system")) ?: 30000142;
 
         $ajax = datatables()
-            ->of($this->query($system,$days))
+            ->of($this->query($system,$start,$end))
             ->editColumn('character_name', function ($row) {
                 return view("rattingmonitor::charactername",[
                     "character_id"=>$row->character_id,
