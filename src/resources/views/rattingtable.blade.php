@@ -1,6 +1,6 @@
 @extends('web::layouts.grids.12')
 
-@section('title', "Ratting Monitor")
+@section('title', "Ratting Monitor | $system_name")
 @section('page_header', "Ratting Monitor")
 
 
