@@ -56,14 +56,17 @@
             </div>
 
             <ul class="list-group">
-            @foreach($favorites as $favorite)
-                @if($favorite->system_id!=$system)
+                @foreach($favorites as $favorite)
                     <a href="{{ route(Route::current()->getName(),["days"=>$days,"system"=>$favorite->system_id,"system_text"=>$favorite->system->name]) }}"
                        class="list-group-item list-group-item-action">
                         {{ $favorite->system->name }}
                     </a>
+                @endforeach
+                @if($favorites->isEmpty())
+                    <li class="list-group-item">
+                        You haven't added any favorites.
+                    </li>
                 @endif
-            @endforeach
             </ul>
         </div>
     </div>
