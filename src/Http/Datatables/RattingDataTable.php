@@ -1,14 +1,12 @@
 <?php
 namespace RecursiveTree\Seat\RattingMonitor\Http\Datatables;
 
-use RecursiveTree\Seat\RattingMonitor\Http\Datatables\Exports\RattingDataExport;
 use Yajra\DataTables\Services\DataTable;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 abstract class RattingDataTable extends DataTable
 {
-    protected $exportClass = RattingDataExport::class;
-
     abstract public function query($system,$start,$end);
 
     public function getColumns()
@@ -28,14 +26,14 @@ abstract class RattingDataTable extends DataTable
             ->postAjax()
             ->parameters([
                 'dom'          => '<"row"<"col-sm-12 col-md-4"l><"col-sm-12 col-md-4 text-center"B>><"row"<"col-sm-12"tr>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
-                'buttons' => ['postCsv', 'postExcel'],
+                'buttons' => ['csv', 'excel'],
                 'drawCallback' => "function(d) { d.system = $system; d.days = $days; }",
             ])
             ->columns($this->getColumns())
             ->orderBy(1, 'desc');
     }
 
-    public function ajax()
+    public function ajax(): JsonResponse
     {
         if(request()->query("timeType")=="days"){
             $start = now()->subDays(intval(request()->query("days")) ?: 30);
