@@ -35,7 +35,8 @@ abstract class RattingDataTable extends DataTable
 
     public function ajax(): JsonResponse
     {
-        if(request()->query("timeType")=="days"){
+        $timeType = request()->query("timeType") ?? "days";
+        if($timeType == "days") {
             $start = now()->subDays(intval(request()->query("days")) ?: 30);
             $end = now();
         } else {

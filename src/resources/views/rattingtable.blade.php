@@ -71,7 +71,7 @@
 
             <ul class="list-group">
                 @foreach($favorites as $favorite)
-                    <a href="{{ route(Route::current()->getName(),["days"=>$days,"system"=>$favorite->system_id,"system_text"=>$favorite->system->name]) }}"
+                    <a href="{{ route(Route::current()->getName(),["timeType" => "days", "days"=>$days,"system"=>$favorite->system_id,"system_text"=>$favorite->system->name]) }}"
                        class="list-group-item list-group-item-action">
                         {{ $favorite->system->name }}
                     </a>
