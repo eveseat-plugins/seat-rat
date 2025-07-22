@@ -35,12 +35,12 @@ abstract class RattingDataTable extends DataTable
 
     public function ajax(): JsonResponse
     {
-        if(request()->query("timeType")=="days"){
-            $start = now()->subDays(intval(request()->query("days")) ?: 30);
-            $end = now();
-        } else {
+        if(request()->query("timeType")=="month"){
             $start = carbon(request()->query("month"))->startOfMonth();
             $end = carbon(request()->query("month"))->endOfMonth();
+        } else {
+            $start = now()->subDays(intval(request()->query("days")) ?: 30);
+            $end = now();
         }
         $system = intval(request()->query("system")) ?: 30000142;
 
