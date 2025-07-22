@@ -46,6 +46,13 @@ class RattingMonitorController extends Controller
     }
 
     public function user(Request $request, UserRattingDataTable $dataTable){
+        $request->validate([
+            "timeType"=>"nullable|in:days,month",
+            "days" => "nullable|integer",
+            "system" => "nullable|integer",
+            "system_text" => "nullable|string",
+            "month" => "nullable",
+        ]);
 
         $timeType = $request->timeType ?: "days";
         $days = intval($request->days) ?: 30;
@@ -62,6 +69,14 @@ class RattingMonitorController extends Controller
 
     public function character(Request $request, CharacterRattingDataTable $dataTable)
     {
+        $request->validate([
+            "timeType"=>"nullable|in:days,month",
+            "days" => "nullable|integer",
+            "system" => "nullable|integer",
+            "system_text" => "nullable|string",
+            "month" => "nullable",
+        ]);
+
         $timeType = $request->timeType ?: "days";
         $days = intval($request->days) ?: 30;
         $system = intval($request->system) ?: 30000142; //Jita
