@@ -1,7 +1,7 @@
 {
   "name": "recursivetree/seat-rat",
   "description": "Monitor ratting usage in systems",
-  "license": "MIT",
+  "license": "GPL-2.0",
   "authors": [
     {
       "name": "recursivetree",
